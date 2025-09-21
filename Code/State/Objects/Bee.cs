@@ -71,8 +71,6 @@ public class Bee : GameObj
 
     private void Update()
     {
-        // Console.WriteLine(intent);
-        // Console.WriteLine(selected_obj);
         if (intent == IntentType.MovePos || intent == IntentType.MoveObj)
         {
             rot = MathZ.Atan2(move_target - pos);
@@ -85,10 +83,8 @@ public class Bee : GameObj
         }
         if (intent == IntentType.Eating)
         {
-            Console.WriteLine("try eat");
-            if ((pos - selected_obj.pos).Length() <= 0.75f)
+            if ((pos - selected_obj.pos).Length() <= scale * 0.5f + 0.25f)
             {
-                Console.WriteLine("ate");
                 selected_obj.FlagDelete();
             }
         }
@@ -104,10 +100,8 @@ public class Bee : GameObj
 
     private static TaskNodeStatus PlanMoveVec(Bee bee)
     {
-        Console.WriteLine("plan move vec");
         if (!bee.move_path.IsReady())
         {
-            Console.WriteLine($"{bee.pos}, {bee.move_dest}");
             bee.move_path.MakeNewPath(bee.pos, bee.move_dest, GS.grid);
         }
 
@@ -118,7 +112,6 @@ public class Bee : GameObj
 
         if (!bee.move_path.IsReady())
         {
-            Console.WriteLine((bee.pos - bee.move_dest).Length());
             if ((bee.pos - bee.move_dest).Length() <= bee.scale * 0.5f + 0.25f)
             {
                 return TaskNodeStatus.Success;
@@ -143,14 +136,12 @@ public class Bee : GameObj
 
     private static TaskNodeStatus SelectApple(Bee bee)
     {
-        Console.WriteLine("select apple");
         bee.selected_obj = Apple.RequestReserveClosest(bee.pos);
         if (bee.selected_obj != null) return TaskNodeStatus.Success;
         else return TaskNodeStatus.Failure;
     }
     private static TaskNodeStatus PlanEatApple(Bee bee)
     {
-        Console.WriteLine("plan eat apple");
         if ((bee.pos - bee.selected_obj.pos).Length() <= 0.75f)
         {
             bee.intent = IntentType.Eating;
@@ -164,14 +155,12 @@ public class Bee : GameObj
 
     private static TaskNodeStatus SitIdle(Bee bee)
     {
-        // Console.WriteLine("sit idle");
         bee.intent = IntentType.Idle;
         return TaskNodeStatus.Success;
     }
 
     private static bool CheckForApple(Bee bee)
     {
-        Console.WriteLine("check for apple");
         return Apple.available_apples.Count != 0 || bee.selected_obj != null;
     }
 }
