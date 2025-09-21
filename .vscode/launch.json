@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Test Command",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "test command",
+      "program": "dotnet",
+      "args": ["--version"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}

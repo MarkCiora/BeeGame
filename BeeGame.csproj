@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RollForward>Major</RollForward>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <TieredCompilation>false</TieredCompilation>
+    <RestoreDotnetCliToolReferences>false</RestoreDotnetCliToolReferences>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- MonoGame runtime -->
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.*" />
+    <!-- Content Builder (does NOT reinstall tools if dotnet-mgcb exists globally) -->
+    <!-- <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" /> -->
+  </ItemGroup>
+
+  <!-- Build MGCB content before building -->
+  <Target Name="BuildContent" BeforeTargets="Build">
+    <!-- Assumes dotnet-mgcb is installed globally -->
+    <Exec WorkingDirectory="Content" Command="dotnet mgcb Content.mgcb /quiet /platform:DesktopGL /outputDir:$(MSBuildProjectDirectory)\Content\bin\DesktopGL" />
+  </Target>
+
+  <!-- Copy compiled XNBs into bin output -->
+  <Target Name="CopyContent" AfterTargets="Build">
+    <ItemGroup>
+      <BuiltContent Include="Content\bin\DesktopGL\**\*.xnb" />
+    </ItemGroup>
+    <Copy SourceFiles="@(BuiltContent)" DestinationFolder="$(OutputPath)Content\" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>
