@@ -95,7 +95,7 @@ public class MovePath
                     came_from[neighbor] = current;
                     g_score[neighbor] = tentative_g;
 
-                    float f_score = tentative_g + 0.0f*(neighbor - current).Length();
+                    float f_score = tentative_g + (neighbor - current).Length();
                     // float f_score = tentative_g + neighbor.EuclidDistance(goal_hex);
                     open_set.Enqueue(neighbor, f_score);
                 }
@@ -105,15 +105,4 @@ public class MovePath
         return null; // no path
     }
 
-    // private static List<HexPoint> ReconstructPath(Dictionary<HexPoint, HexPoint> cameFrom, HexPoint current)
-    // {
-    //     var path = new List<HexPoint> { current };
-    //     while (cameFrom.TryGetValue(current, out var prev))
-    //     {
-    //         current = prev;
-    //         path.Add(current);
-    //     }
-    //     path.Reverse();
-    //     return path;
-    // }
 }
