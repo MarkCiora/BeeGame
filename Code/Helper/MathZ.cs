@@ -76,34 +76,22 @@ public static class MathZ
         return new Point((int)MathF.Round(vec.X), (int)MathF.Round(vec.Y));
     }
 
-    public static Point RandomDirP()
-    {
-        int choice = rand.Next(4);
-        if (choice == 0) return new Point(1, 0);
-        if (choice == 1) return new Point(-1, 0);
-        if (choice == 2) return new Point(0, 1);
-        else return new Point(0, -1);
-    }
-
     public static Vector2 RandomDirV()
     {
-        int choice = rand.Next(4);
-        if (choice == 0) return new Vector2(1, 0);
-        if (choice == 1) return new Vector2(-1, 0);
-        if (choice == 2) return new Vector2(0, 1);
-        else return new Vector2(0, -1);
+        float x, y, distsq;
+        do
+        {
+            x = rand.NextSingle() * 2f - 1f;
+            y = rand.NextSingle() * 2f - 1f;
+            distsq = x * x + y * y;
+        } while (distsq < 1e-9f || distsq > 1f);
+        distsq = MathF.Sqrt(distsq);
+        return new Vector2(x / distsq, y / distsq);
     }
 
     public static int RandomInt()
     {
         return rand.Next();
-    }
-
-    public static bool IsAdjacent(Point a, Point b)
-    {
-        int dx = Math.Abs(a.X - b.X);
-        int dy = Math.Abs(a.Y - b.Y);
-        return (dx + dy) == 1;  // exactly one step away
     }
 
 }
