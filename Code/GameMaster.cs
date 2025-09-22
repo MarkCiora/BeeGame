@@ -20,6 +20,7 @@ public class GameMaster : Game
     {
         Screen.Init(gdm);
         Input.Init();
+        MathZ.Init();
         
         GameLogic.Init();
 
