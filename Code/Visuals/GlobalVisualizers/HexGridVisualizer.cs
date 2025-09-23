@@ -10,27 +10,26 @@ using System.Linq;
 
 namespace BeeGame;
 
-public class HexGridVisualizer
+public static class HexGridVisualizer
 {
-    HexGrid grid;
-
-    public HexGridVisualizer(HexGrid grid_)
+    public static void Visualize()
     {
-        grid = grid_;
-        int size = grid.diameter;
-    }
+        HexGrid grid = GS.grids[GS.focused_grid];
+        HexTile[,] tiles = grid.tiles;
+        int diameter = grid.diameter;
+        Camera camera = GS.main_cameras[GS.focused_grid];
 
-    public void Visualize()
-    {
         Visuals.sb.Begin(effect: Shaders.HexTileShader);
         Texture2D white_pixel = Textures.white_pixel;
-        for (int i = 0; i < grid.diameter; i++)
+        for (int i = 0; i < diameter; i++)
         {
-            for (int j = 0; j < grid.diameter; j++)
+            for (int j = 0; j < diameter; j++)
             {
-                Vector2 world_pos = grid[i, j].WorldPos();
-                Vector2 screen_pos = GS.main_camera.WorldToScreen(world_pos);
-                float zoom = GS.main_camera.zoom;
+                Color color = tiles[i,j].type == 0 ? Color.Brown : Color.Gray;
+                HexPoint hex_pos = new HexPoint(i,j);
+                Vector2 world_pos = hex_pos.ToWorldPos();
+                Vector2 screen_pos = camera.WorldToScreen(world_pos);
+                float zoom = camera.zoom;
                 float scale = zoom * 2;
                 Rectangle rect = new Rectangle(
                     (int)(screen_pos.X - scale * 0.5),
@@ -38,17 +37,12 @@ public class HexGridVisualizer
                     (int)scale,
                     (int)scale
                 );
-                Visuals.sb.Draw(white_pixel, rect, Color.Red);
+                Visuals.sb.Draw(white_pixel, rect, color);
             }
         }
         Visuals.sb.End();
 
         Visuals.sb.Begin();
         Visuals.sb.End();
-    }
-
-    public void Update(HexPoint point)
-    {
-
     }
 }

@@ -6,10 +6,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Linq;
 
 namespace BeeGame;
 
-public class Anim
+public static class SpriteVisualizer
 {
-
+    public static void Visualize()
+    {
+        Visuals.sb.Begin();
+        Visuals.sb.End();
+    }
 }

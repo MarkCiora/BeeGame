@@ -24,8 +24,6 @@ public static class Visuals
         Console.WriteLine("Textures Loaded");
         Shaders.LoadContent();
         Console.WriteLine("Shaders Loaded");
-        GS.grid.LoadVisualizer();
-        Console.WriteLine("Grid Visualizer Loaded");
     }
 
     public static void Draw(Texture2D tex, Vector2 pos, float rot, float scale, Color tint)
@@ -72,9 +70,9 @@ public static class Visuals
 
     public static void Update()
     {
-        GS.grid.Visualize();
-        GameObjVisualizer.Visualize();
-        PathVisualizer.Visualize();
+        HexGridVisualizer.Visualize();
+        // GameObjVisualizer.Visualize();
+        // PathVisualizer.Visualize();
     }
 
     public static Point ScreenDims()

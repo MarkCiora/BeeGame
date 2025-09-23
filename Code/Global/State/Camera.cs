@@ -10,23 +10,22 @@ namespace BeeGame;
 
 public class Camera
 {
-    public static Camera main;
-
     public Vector2 pos;
     public float zoom; //pixels per unit in world space
     public float rot; //DOESNT WORK YET
-
     public bool using_preset;
     public int selected_zoom;
+
+    public static float camera_speed = 4f;
     public static readonly float[] zoom_presets =
-        {50f, 75f, 100f, 150f, 200f, 250f };
+        {20f, 30f, 50f, 75f, 100f, 150f, 200f, 250f };
 
     public Camera(Vector2 p, float r = 0)
     {
         pos = p;
         rot = r;
         using_preset = true;
-        selected_zoom = 2;
+        selected_zoom = 4;
         zoom = zoom_presets[selected_zoom];
     }
 

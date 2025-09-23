@@ -9,33 +9,35 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BeeGame;
 
-public static class CameraControl
+public static class CameraLogic
 {
     public static void Update()
     {
+        Camera camera = GS.main_cameras[GS.focused_grid];
+
         if (Input.IsScrollUp())
         {
-            GS.main_camera.ZoomIn();
+            camera.ZoomIn();
         }
         if (Input.IsScrollDown())
         {
-            GS.main_camera.ZoomOut();
+            camera.ZoomOut();
         }
         if (Input.IsHeld(Keys.W))
         {
-            GS.main_camera.pos += new Vector2(0f, 1f) * GS.camera_speed * Time.dt;
+            camera.pos += new Vector2(0f, 1f) * Camera.camera_speed * Time.dt;
         }
         if (Input.IsHeld(Keys.A))
         {
-            GS.main_camera.pos += new Vector2(-1f, 0f) * GS.camera_speed * Time.dt;
+            camera.pos += new Vector2(-1f, 0f) * Camera.camera_speed * Time.dt;
         }
         if (Input.IsHeld(Keys.S))
         {
-            GS.main_camera.pos += new Vector2(0f, -1f) * GS.camera_speed * Time.dt;
+            camera.pos += new Vector2(0f, -1f) * Camera.camera_speed * Time.dt;
         }
         if (Input.IsHeld(Keys.D))
         {
-            GS.main_camera.pos += new Vector2(1f, 0f) * GS.camera_speed * Time.dt;
+            camera.pos += new Vector2(1f, 0f) * Camera.camera_speed * Time.dt;
         }
     }
 }
