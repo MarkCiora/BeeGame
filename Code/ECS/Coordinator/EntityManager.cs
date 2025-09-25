@@ -11,7 +11,7 @@ namespace BeeGame;
 
 public class EntityManager
 {
-    private const int MAX_ENTITIES = 5000; // example, tune to your needs
+    private const int MAX_ENTITIES = 25000; // example, tune to your needs
     private readonly Queue<int> _availableEntities = new();
     private readonly Signature[] _signatures = new Signature[MAX_ENTITIES];
     private int _livingEntityCount;

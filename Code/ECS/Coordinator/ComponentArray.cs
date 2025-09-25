@@ -17,7 +17,7 @@ public interface IComponentArray
 
 public class ComponentArray<T> : IComponentArray where T : struct
 {
-    private const int MAX_ENTITIES = 1000;
+    private const int MAX_ENTITIES = 20000;
 
     private readonly T[] _componentArray;
     private readonly Dictionary<int, int> _entityToIndexMap;

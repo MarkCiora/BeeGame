@@ -25,7 +25,23 @@ public static class HexGridVisualizer
         {
             for (int j = 0; j < diameter; j++)
             {
-                Color color = tiles[i,j].type == 0 ? Color.Brown : Color.Gray;
+                // Color color = tiles[i,j].type == 0 ? Color.Brown : Color.Gray;
+                Color color;
+                switch (tiles[i, j].type)
+                {
+                    case 0:
+                        color = new Color(0, 0, 0, 0);
+                        break;
+                    case 1:
+                        color = Color.Brown;
+                        break;
+                    case 2:
+                        color = Color.Gray;
+                        break;
+                    default:
+                        color = new Color(0, 0, 0, 0);
+                        break;
+                }
                 HexPoint hex_pos = new HexPoint(i,j);
                 Vector2 world_pos = hex_pos.ToWorldPos();
                 Vector2 screen_pos = camera.WorldToScreen(world_pos);

@@ -15,14 +15,21 @@ public class SystemManager
     private readonly Dictionary<Type, Signature> _signatures = new();
     private readonly Dictionary<Type, ECSSystem> _systems = new();
 
+    public T GetSystem<T>() where T : ECSSystem
+    {
+        return (T)_systems[typeof(T)];
+    }
+
     // Register a system and return it
-    public T RegisterSystem<T>() where T : ECSSystem, new()
+    public T RegisterSystem<T>(ECSCoordinator ecs) where T : ECSSystem, new()
     {
         Type type = typeof(T);
         Debug.Assert(!_systems.ContainsKey(type), $"Registering system {type} more than once.");
 
         var system = new T();
+        system.ecs = ecs;
         _systems[type] = system;
+
         return system;
     }
 

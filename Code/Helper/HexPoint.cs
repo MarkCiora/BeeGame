@@ -20,18 +20,32 @@ public class HexPoint
 {
     public int q { get; }
     public int r { get; }
-    public int s { get; }
+    // public int s { get; }
 
-    public static HexPoint[] adj =
-    {
-        new HexPoint(1,-1), new HexPoint(1,0), new HexPoint(0,1),
-        new HexPoint(-1,1), new HexPoint(-1,0), new HexPoint(0,-1)
-    };
+    // public static HexPoint[] adj =
+    // {
+    //     new HexPoint(1,-1), new HexPoint(1,0), new HexPoint(0,1),
+    //     new HexPoint(-1,1), new HexPoint(-1,0), new HexPoint(0,-1)
+    // };
 
     public HexPoint[] GetNeighbors()
     {
         return new HexPoint[]
         {
+            this + new HexPoint(1,-1),
+            this + new HexPoint(1,0),
+            this + new HexPoint(0,1),
+            this + new HexPoint(-1,1),
+            this + new HexPoint(-1,0),
+            this + new HexPoint(0,-1)
+        };
+    }
+
+    public HexPoint[] GetThisAndNeighbors()
+    {
+        return new HexPoint[]
+        {
+            this,
             this + new HexPoint(1,-1),
             this + new HexPoint(1,0),
             this + new HexPoint(0,1),
@@ -50,7 +64,7 @@ public class HexPoint
     {
         q = q_;
         r = r_;
-        s = -q - r;
+        // s = -q - r;
     }
 
     /// <summary>
@@ -59,33 +73,33 @@ public class HexPoint
     /// <param name="q_"></param>
     /// <param name="r_"></param>
     /// <param name="s_"></param>
-    public HexPoint(int q_, int r_, int s_)
-    {
-        if (q_ + r_ + s_ != 0)
-        {
-            q = r = s = 100000;
-        }
-        else
-        {
-            q = q_;
-            r = r_;
-            s = s_;
-        }
-    }
+    // public HexPoint(int q_, int r_, int s_)
+    // {
+    //     if (q_ + r_ + s_ != 0)
+    //     {
+    //         q = r = s = 100000;
+    //     }
+    //     else
+    //     {
+    //         q = q_;
+    //         r = r_;
+    //         s = s_;
+    //     }
+    // }
 
-    public HexPoint(Point3 point)
-    {
-        if (point.X + point.Y + point.Z != 0)
-        {
-            q = r = s = 100000;
-        }
-        else
-        {
-            q = point.X ;
-            r = point.Y ;
-            s = point.Z ;
-        }
-    }
+    // public HexPoint(Point3 point)
+    // {
+    //     if (point.X + point.Y + point.Z != 0)
+    //     {
+    //         q = r = s = 100000;
+    //     }
+    //     else
+    //     {
+    //         q = point.X ;
+    //         r = point.Y ;
+    //         s = point.Z ;
+    //     }
+    // }
 
     public HexPoint(Vector2 vec)
     {
@@ -94,7 +108,7 @@ public class HexPoint
         float sf = -qf - rf;
         q = (int)Math.Round(qf);
         r = (int)Math.Round(rf);
-        s = (int)Math.Round(sf);
+        int s = (int)Math.Round(sf);
         float dq = Math.Abs(qf - q);
         float dr = Math.Abs(rf - r);
         float ds = Math.Abs(sf - s);
@@ -102,8 +116,8 @@ public class HexPoint
             q = -r - s;
         else if (dr > ds)
             r = -q - s;
-        else
-            s = -q - r;
+        // else
+        //     s = -q - r;
     }
 
     public float EuclidDistance(HexPoint target)
@@ -113,44 +127,39 @@ public class HexPoint
 
     public int Length()
     {
-        return (Math.Abs(q) + Math.Abs(r) + Math.Abs(s)) / 2;
+        return (Math.Abs(q) + Math.Abs(r) + Math.Abs(-q - r)) / 2;
     }
 
     public Point3 ToPoint3()
     {
-        return new Point3(q, r, s);
+        return new Point3(q, r, -q - r);
     }
 
     public Vector2 ToWorldPos()
     {
-        float x = (float)q * 1.5f;
-        float y = -MathF.Sqrt(3) * ((float)q * 0.5f + (float)r);
+        float x = q * 1.5f;
+        float y = -MathF.Sqrt(3) * (q * 0.5f + r);
         return new Vector2(x, y);
-    }
-
-    public bool IsValid()
-    {
-        return q + r + s == 0;
     }
     
     public static HexPoint operator +(HexPoint a, HexPoint b)
     {
-        return new HexPoint(a.q + b.q, a.r + b.r, a.s + b.s);
+        return new HexPoint(a.q + b.q, a.r + b.r);
     }
 
     public static HexPoint operator -(HexPoint a, HexPoint b)
     {
-        return new HexPoint(a.q - b.q, a.r - b.r, a.s - b.s);
+        return new HexPoint(a.q - b.q, a.r - b.r);
     }
 
     public static bool operator ==(HexPoint a, HexPoint b)
     {
-        return a.q == b.q && a.r == b.r && a.s == b.s;
+        return a.q == b.q && a.r == b.r;
     }
 
     public static bool operator !=(HexPoint a, HexPoint b)
     {
-        return !(a == b);
+        return a.q != b.q || a.r != b.r;
     }
 
     public override bool Equals(object obj)
@@ -162,8 +171,8 @@ public class HexPoint
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(q, r, s);
+        return HashCode.Combine(q, r);
     }
 
-    public override string ToString() => $"({q},{r},{s})";
+    public override string ToString() => $"({q},{r},{-q - r})";
 }

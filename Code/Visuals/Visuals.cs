@@ -70,9 +70,13 @@ public static class Visuals
 
     public static void Update()
     {
+        ECSCoordinator ecs = GS.main_ecs;
+
         HexGridVisualizer.Visualize();
-        // GameObjVisualizer.Visualize();
-        // PathVisualizer.Visualize();
+
+        ecs.GetSystem<TileSpriteVisualizerSystem>().Update();
+        ecs.GetSystem<SpriteVisualizerSystem>().Update();
+
     }
 
     public static Point ScreenDims()

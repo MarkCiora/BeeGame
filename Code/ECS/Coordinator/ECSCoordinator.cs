@@ -69,11 +69,16 @@ public class ECSCoordinator
 
     public T RegisterSystem<T>() where T : ECSSystem, new()
     {
-        return SM.RegisterSystem<T>();
+        return SM.RegisterSystem<T>(this);
     }
 
     public void SetSystemSignature<T>(Signature signature) where T : ECSSystem
     {
         SM.SetSignature<T>(signature);
+    }
+
+    public T GetSystem<T>() where T : ECSSystem
+    {
+        return SM.GetSystem<T>();
     }
 }

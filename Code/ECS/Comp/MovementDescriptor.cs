@@ -9,19 +9,18 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BeeGame;
 
-// public struct Position
+public struct MovementDescriptor
+{
+    public float max_speed;
+    public float acc;
+    public Vector2 move_target;
+}
+
+// public struct Transform
 // {
-//     public Vector2 v;
+//     public Vector2 pos;
+//     public Vector2 vel;
+//     public float scale;
+//     public float rot;
 //     public int grid_level;
 // }
-
-public struct Transform
-{
-    public Vector2 pos;
-    public Vector2 push;
-    public int grid_level;
-    public bool can_move;
-    public float speed;
-    public float scale;
-    public float rot;
-}

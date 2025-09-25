@@ -11,6 +11,6 @@ namespace BeeGame;
 
 public struct Sprite
 {
-    public Texture2D texture;
+    public int texture;
     public Color tint;
 }

@@ -9,8 +9,16 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BeeGame;
 
-public abstract class ECSSystem
+public struct TileOccupier
 {
-    public ECSCoordinator ecs;
-    public HashSet<int> m_entities = new();
+    public int grid;
+    public int x;
+    public int y;
+    public int orientation;
+    public TileShape shape;
+}
+
+public enum TileShape
+{
+    no, dot, line2, line3, L, tri, hex
 }

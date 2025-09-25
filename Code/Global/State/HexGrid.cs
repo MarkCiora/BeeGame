@@ -12,8 +12,11 @@ namespace BeeGame;
 
 public struct HexTile
 {
-    public int type; // 0 null
     public int elevation; // 0 ground level
+    public byte type; // 0 null
+    public bool collision; // indicates if has a collider
+    public bool built; // true if built on
+    public int occupied_entity; // id of building (if built)
 }
 
 public struct HexGrid
