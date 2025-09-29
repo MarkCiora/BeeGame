@@ -141,6 +141,28 @@ public class HexPoint
         float y = -MathF.Sqrt(3) * (q * 0.5f + r);
         return new Vector2(x, y);
     }
+
+    public HexPoint RotatedBy(int orientation)
+    {
+        orientation = (orientation + 600) % 6;
+        switch (orientation)
+        {
+            case 0:
+                return new HexPoint(q, r);
+            case 1:
+                return new HexPoint(-r, q + r);
+            case 2:
+                return new HexPoint(-q - r, q);
+            case 3:
+                return new HexPoint(-q, -r);
+            case 4:
+                return new HexPoint(r, -q - r);
+            case 5:
+                return new HexPoint(q + r, -q);
+            default:
+                return new HexPoint(q, r);
+        }
+    }
     
     public static HexPoint operator +(HexPoint a, HexPoint b)
     {

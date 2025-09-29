@@ -9,8 +9,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BeeGame;
 
-public struct Sprite
+public enum UnitType
 {
-    public Texture2D texture;
-    public Color tint;
+    
+}
+
+public struct Unit
+{
+    public UnitType type;
 }

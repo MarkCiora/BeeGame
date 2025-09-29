@@ -9,12 +9,6 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BeeGame;
 
-// public struct Position
-// {
-//     public Vector2 v;
-//     public int grid_level;
-// }
-
 public struct Transform
 {
     public Vector2 pos;

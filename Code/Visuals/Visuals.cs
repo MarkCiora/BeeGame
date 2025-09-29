@@ -24,6 +24,8 @@ public static class Visuals
         Console.WriteLine("Textures Loaded");
         Shaders.LoadContent();
         Console.WriteLine("Shaders Loaded");
+
+        GS.game_logic_ready = true;
     }
 
     public static void Draw(Texture2D tex, Vector2 pos, float rot, float scale, Color tint)
@@ -76,6 +78,7 @@ public static class Visuals
 
         ecs.GetSystem<TileSpriteVisualizerSystem>().Update();
         ecs.GetSystem<SpriteVisualizerSystem>().Update();
+        ecs.GetSystem<ColliderVisualizerSystem>().Update();
 
     }
 

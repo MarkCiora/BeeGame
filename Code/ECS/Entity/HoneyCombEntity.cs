@@ -24,7 +24,7 @@ public static class HoneyCombEntity
         ecs.AddComponent(id, tile_occupier);
 
         Sprite sprite = new();
-        sprite.texture = 8;
+        sprite.texture = Textures.BeeComb1;
         sprite.tint = Color.White;
         ecs.AddComponent(id, sprite);
 

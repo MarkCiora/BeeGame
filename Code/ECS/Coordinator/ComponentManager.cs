@@ -18,13 +18,13 @@ public class ComponentManager
     private int _nextComponentType;
 
     // Register a component type T
-    public void RegisterComponent<T>() where T : struct
+    public void RegisterComponent<T>(int n) where T : struct
     {
         Type type = typeof(T);
         Debug.Assert(!_componentTypes.ContainsKey(type), $"Registering component type {type} more than once.");
 
         _componentTypes[type] = _nextComponentType;
-        _componentArrays[type] = new ComponentArray<T>();
+        _componentArrays[type] = new ComponentArray<T>(n);
 
         _nextComponentType++;
     }

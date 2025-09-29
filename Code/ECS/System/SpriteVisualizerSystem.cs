@@ -19,7 +19,7 @@ public class SpriteVisualizerSystem : ECSSystem
         {
             var transform = ecs.GetComponent<Transform>(entity);
             var sprite = ecs.GetComponent<Sprite>(entity);
-            var tex = Textures.array[sprite.texture];
+            var tex = sprite.texture;
             Vector2 screen_pos = camera.WorldToScreen(transform.pos);
             Rectangle rect = new(0, 0, tex.Height, tex.Height);
             float scale = transform.scale * camera.zoom / tex.Height;

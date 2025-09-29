@@ -18,6 +18,10 @@ public class BeeMoveSystem : ECSSystem
             ref var transform = ref ecs.GetComponent<Transform>(entity);
             var move_desc = ecs.GetComponent<MovementDescriptor>(entity);
 
+            // if no intent to move, end here
+            if (!move_desc.move_intent) continue;
+
+            // calculate move direction, apply rotation, and move
             Vector2 move_diff = move_desc.move_target - transform.pos;
             float distance = move_diff.Length();
             if (distance < transform.scale / 2)

@@ -13,7 +13,7 @@ public static class HexGridLogic
 {
     public static void Init()
     {
-        int main_grid_index = CreateBlankHex(50);
+        int main_grid_index = CreateBlankHex(10);
         SetMain(main_grid_index);
     }
 

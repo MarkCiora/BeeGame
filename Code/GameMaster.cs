@@ -31,9 +31,6 @@ public class GameMaster : Game
         Input.Init();
         MathZ.Init();
 
-        // initialize game state
-        GlobalLogic.Init();
-
         base.Initialize();
     }
 
@@ -54,7 +51,12 @@ public class GameMaster : Game
 
         Input.Update();
 
-        GlobalLogic.Update();
+        if (!GS.game_running && GS.game_logic_ready)
+        {
+            GlobalLogic.Init();
+            GS.game_running = true;
+        }
+        else if (GS.game_running) GlobalLogic.Update();
 
         base.Update(gameTime);
     }

@@ -6,11 +6,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace BeeGame;
 
-public struct Sprite
+/// <summary>
+/// Logic for building selection, hovering
+/// </summary>
+public static class BuildingTools
 {
-    public Texture2D texture;
-    public Color tint;
+
 }

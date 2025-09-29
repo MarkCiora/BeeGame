@@ -96,7 +96,7 @@ public class CollisionSystem : ECSSystem
                 }
             }
 
-            hex_point = new HexPoint(transform.pos / .06f);
+            hex_point = new HexPoint(transform.pos / .1f);
             if (lookup_grid.ContainsKey(hex_point))
             {
                 lookup_grid[hex_point].Add(entity);
@@ -170,14 +170,14 @@ public class CollisionSystem : ECSSystem
             if (dist == 0)
                 dir = new Vector2(1, 0);
             else
-                dir = diff / dist;
-            Vector2 push = dir * dist_diff * 0.25f;
+                dir = Vector2.Normalize(diff);
+            Vector2 push = dir * dist_diff * 0.5f;
             transform1.push += push;
             transform2.push -= push;
         }
 
         // apply circle collision push
-        float push_max = 10f;
+        float push_max = 1f;
         foreach (var entity in m_entities)
         {
             ref Transform transform = ref ecs.GetComponent<Transform>(entity);

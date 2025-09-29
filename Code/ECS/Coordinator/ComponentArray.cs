@@ -17,16 +17,14 @@ public interface IComponentArray
 
 public class ComponentArray<T> : IComponentArray where T : struct
 {
-    private const int MAX_ENTITIES = 20000;
-
     private readonly T[] _componentArray;
     private readonly Dictionary<int, int> _entityToIndexMap;
     private readonly Dictionary<int, int> _indexToEntityMap;
     private int _size;
 
-    public ComponentArray()
+    public ComponentArray(int n = 2000)
     {
-        _componentArray = new T[MAX_ENTITIES];
+        _componentArray = new T[n];
         _entityToIndexMap = new Dictionary<int, int>();
         _indexToEntityMap = new Dictionary<int, int>();
         _size = 0;

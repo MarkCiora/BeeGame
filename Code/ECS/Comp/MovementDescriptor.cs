@@ -14,6 +14,7 @@ public struct MovementDescriptor
     public float max_speed;
     public float acc;
     public Vector2 move_target;
+    public bool move_intent;
 }
 
 // public struct Transform

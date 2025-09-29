@@ -20,7 +20,7 @@ public static class AppleEntity
         ecs.AddComponent(id, transform);
 
         Sprite sprite = new();
-        sprite.texture = 1;
+        sprite.texture = Textures.apple1;
         sprite.tint = Color.White;
         ecs.AddComponent(id, sprite);
 

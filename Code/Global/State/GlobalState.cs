@@ -14,6 +14,9 @@ namespace BeeGame;
 
 public static class GS
 {
+    public static bool game_logic_ready = false;
+    public static bool game_running = false;
+
     public static Desktop desktop;
 
     public static ECSCoordinator main_ecs;

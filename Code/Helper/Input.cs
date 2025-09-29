@@ -18,25 +18,25 @@ public enum MouseButton
 
 public class InputEvent
 {
-    public Keys? Key { get; }
-    public MouseButton? MouseButton { get; }
-    public Point MousePosition { get; }
-    public bool Consumed { get; private set; }
+    public Keys? key { get; }
+    public MouseButton? mouse_button { get; }
+    public Point mouse_pos { get; }
+    public bool consumed { get; private set; }
 
     public InputEvent(Keys key)
     {
-        Key = key;
+        this.key = key;
     }
 
     public InputEvent(MouseButton button, Point pos)
     {
-        MouseButton = button;
-        MousePosition = pos;
+        mouse_button = button;
+        mouse_pos = pos;
     }
 
     public void Consume()
     {
-        Consumed = true;
+        consumed = true;
     }
 }
 
@@ -61,6 +61,7 @@ public static class Input
         current_kstate = Keyboard.GetState();
         last_mstate = current_mstate;
         current_mstate = Mouse.GetState();
+        InputRouter.ProcessInput();
     }
 
     private static ButtonState GetButtonState(MouseState state, MouseButton button)
@@ -145,40 +146,40 @@ public static class Input
     }
 }
 
-public class InputRouter
+public static class InputRouter
 {
-    private readonly Dictionary<Keys, List<(int Priority, Func<InputEvent, bool> Handler)>> _keyHandlers = new();
-    private readonly Dictionary<MouseButton, List<(int Priority, Func<InputEvent, bool> Handler)>> _mouseHandlers = new();
+    private static readonly Dictionary<Keys, List<(int Priority, Func<InputEvent, bool> Handler)>> key_handlers = new();
+    private static readonly Dictionary<MouseButton, List<(int Priority, Func<InputEvent, bool> Handler)>> mouse_handlers = new();
 
     // Register a key handler
-    public void RegisterKeyHandler(Keys key, Func<InputEvent, bool> handler, int priority = 0)
+    public static void RegisterKeyHandler(Keys key, Func<InputEvent, bool> handler, int priority = 0)
     {
-        if (!_keyHandlers.TryGetValue(key, out var list))
+        if (!key_handlers.TryGetValue(key, out var list))
         {
             list = new List<(int, Func<InputEvent, bool>)>();
-            _keyHandlers[key] = list;
+            key_handlers[key] = list;
         }
         list.Add((priority, handler));
         list.Sort((a, b) => b.Priority.CompareTo(a.Priority));
     }
 
     // Register a mouse button handler
-    public void RegisterMouseHandler(MouseButton button, Func<InputEvent, bool> handler, int priority = 0)
+    public static void RegisterMouseHandler(MouseButton button, Func<InputEvent, bool> handler, int priority = 0)
     {
-        if (!_mouseHandlers.TryGetValue(button, out var list))
+        if (!mouse_handlers.TryGetValue(button, out var list))
         {
             list = new List<(int, Func<InputEvent, bool>)>();
-            _mouseHandlers[button] = list;
+            mouse_handlers[button] = list;
         }
         list.Add((priority, handler));
         list.Sort((a, b) => b.Priority.CompareTo(a.Priority));
     }
 
-    public void ProcessInput()
+    public static void ProcessInput()
     {
         foreach (var e in Input.GetFrameEvents())
         {
-            if (e.Key.HasValue && _keyHandlers.TryGetValue(e.Key.Value, out var keyList))
+            if (e.key.HasValue && key_handlers.TryGetValue(e.key.Value, out var keyList))
             {
                 foreach (var (_, handler) in keyList)
                 {
@@ -189,7 +190,7 @@ public class InputRouter
                     }
                 }
             }
-            else if (e.MouseButton.HasValue && _mouseHandlers.TryGetValue(e.MouseButton.Value, out var mouseList))
+            else if (e.mouse_button.HasValue && mouse_handlers.TryGetValue(e.mouse_button.Value, out var mouseList))
             {
                 foreach (var (_, handler) in mouseList)
                 {

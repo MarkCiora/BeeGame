@@ -13,14 +13,10 @@ public class BeeThinkSystem : ECSSystem
 {
     public void Update()
     {
-        Vector2 mouse_pos = GS.main_cameras[GS.focused_grid].MousePosInWorld();
-
         foreach (var entity in m_entities)
         {
             var transform = ecs.GetComponent<Transform>(entity);
             ref var move_desc = ref ecs.GetComponent<MovementDescriptor>(entity);
-
-            move_desc.move_target = mouse_pos;
         }
     }
 }

@@ -11,7 +11,6 @@ namespace BeeGame;
 
 public static class Textures
 {
-    public static Texture2D[] array = new Texture2D[100];
 
     public static Texture2D white_pixel; //0
     public static Texture2D apple1; //1
@@ -31,26 +30,16 @@ public static class Textures
 
         white_pixel = new Texture2D(gd, 1, 1);
         white_pixel.SetData(new[] { Color.White });
-        array[0] = white_pixel;
 
         apple1 = cm.Load<Texture2D>("apple1");
-        array[1] = apple1;
         basic_tile = cm.Load<Texture2D>("basic_tile");
-        array[2] = basic_tile;
         Bee1_Sheet = cm.Load<Texture2D>("Bee1_Sheet");
-        array[3] = Bee1_Sheet;
         guy1 = cm.Load<Texture2D>("guy1");
-        array[4] = guy1;
         guy2_active = cm.Load<Texture2D>("guy2_active");
-        array[5] = guy2_active;
         guy2_idle = cm.Load<Texture2D>("guy2_idle");
-        array[6] = guy2_idle;
         tile_highlight = cm.Load<Texture2D>("tile_highlight");
-        array[7] = tile_highlight;
         BeeComb1 = cm.Load<Texture2D>("BeeComb1");
-        array[8] = BeeComb1;
         white_circle = CreateCircleTexture(gd, 32, Color.White);
-        array[9] = white_circle;
     }
 
     public static Texture2D CreateCircleTexture(GraphicsDevice gd, int radius, Color color)

@@ -53,7 +53,7 @@ public static class Screen
 
     public static void ToggleFullscreen()
     {
-        SetFullscreen(gdm.IsFullScreen);
+        SetFullscreen(!gdm.IsFullScreen);
     }
 
 }

@@ -34,9 +34,9 @@ public class ECSCoordinator
         SM.EntityDestroyed(entity);
     }
 
-    public void RegisterComponent<T>() where T : struct
+    public void RegisterComponent<T>(int n = 2000) where T : struct
     {
-        CM.RegisterComponent<T>();
+        CM.RegisterComponent<T>(n);
     }
 
     public void AddComponent<T>(int entity, T component) where T : struct

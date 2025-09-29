@@ -15,6 +15,7 @@ public static class GlobalLogic
     {
         // Global state initialization
         HexGridLogic.Init();
+        GameplayUI.Init();
 
 
         // new global main ecs
@@ -23,11 +24,11 @@ public static class GlobalLogic
 
 
         // Register components
-        ecs.RegisterComponent<Transform>();
-        ecs.RegisterComponent<Sprite>();
-        ecs.RegisterComponent<TileOccupier>();
-        ecs.RegisterComponent<MovementDescriptor>();
-        ecs.RegisterComponent<CircleCollider>();
+        ecs.RegisterComponent<Transform>(20000);
+        ecs.RegisterComponent<Sprite>(20000);
+        ecs.RegisterComponent<TileOccupier>(5000);
+        ecs.RegisterComponent<MovementDescriptor>(10000);
+        ecs.RegisterComponent<CircleCollider>(10000);
 
 
         // Register systems
@@ -67,6 +68,20 @@ public static class GlobalLogic
         signature.Set(ecs.GetComponentType<CircleCollider>(), true);
         signature.Set(ecs.GetComponentType<Transform>(), true);
         ecs.SetSystemSignature<CollisionSystem>(signature);
+        
+        //Collision visualizer system
+        signature = new();
+        ecs.RegisterSystem<ColliderVisualizerSystem>();
+        signature.Set(ecs.GetComponentType<CircleCollider>(), true);
+        signature.Set(ecs.GetComponentType<Transform>(), true);
+        ecs.SetSystemSignature<ColliderVisualizerSystem>(signature);
+        
+        //Bee move system
+        signature = new();
+        ecs.RegisterSystem<BuildingSystem>();
+        signature.Set(ecs.GetComponentType<Transform>(), true);
+        signature.Set(ecs.GetComponentType<TileOccupier>(), true);
+        ecs.SetSystemSignature<BuildingSystem>(signature);
 
 
         // Startup entity creation
@@ -78,7 +93,7 @@ public static class GlobalLogic
             Vector2 placement_pos = center_of_grid + MathZ.RandomDirV() * displacement;
             BeeEntity.CreateBee(ecs, placement_pos, 0);
         }
-        HoneyCombEntity.CreateHoneyComb(ecs, new HexPoint(2, 2), 0);
+        HoneyCombEntity.CreateHoneyComb(ecs, new HexPoint(15, 15), 0);
     }
 
     public static void Update()
@@ -87,16 +102,16 @@ public static class GlobalLogic
 
         if (Input.IsPressed(Keys.F11))
         {
-            Screen.SetFullscreen(true);
+            Screen.ToggleFullscreen();
         }
 
         if (Input.IsPressed(Keys.Space))
         {
             Vector2 center_of_grid = HexGridLogic.GetCenter(GS.grids[GS.focused_grid]).ToWorldPos();
-            for (int i = 0; i < 5000; i++)
+            for (int i = 0; i < 500; i++)
             {
                 float displacement = MathZ.rand.NextSingle();
-                displacement = MathF.Sqrt(displacement) * 10f;
+                displacement = MathF.Sqrt(displacement) * 2f;
                 Vector2 placement_pos = center_of_grid + MathZ.RandomDirV() * displacement;
                 BeeEntity.CreateBee(ecs, placement_pos, 0);
             }
