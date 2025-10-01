@@ -16,6 +16,7 @@ public static class GlobalLogic
         // Global state initialization
         HexGridLogic.Init();
         GameplayUI.Init();
+        BuildingToolsLogic.Init();
 
 
         // new global main ecs
@@ -93,7 +94,7 @@ public static class GlobalLogic
             Vector2 placement_pos = center_of_grid + MathZ.RandomDirV() * displacement;
             BeeEntity.CreateBee(ecs, placement_pos, 0);
         }
-        HoneyCombEntity.CreateHoneyComb(ecs, new HexPoint(15, 15), 0);
+        // HoneyCombEntity.CreateHoneyComb(ecs, new HexPoint(15, 15), 0);
     }
 
     public static void Update()
@@ -116,6 +117,8 @@ public static class GlobalLogic
                 BeeEntity.CreateBee(ecs, placement_pos, 0);
             }
         }
+
+        BuildingToolsLogic.Update();
         
         ecs.GetSystem<BeeThinkSystem>().Update();
         ecs.GetSystem<BeeMoveSystem>().Update();

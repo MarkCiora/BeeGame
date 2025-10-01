@@ -12,6 +12,8 @@ namespace BeeGame;
 public static class Shaders
 {
     public static Effect HexTileShader;
+    public static Effect BuildingPrePlacementShader;
+    public static Effect BuildingBlueprintShader;
 
     public static void LoadContent()
     {
@@ -19,5 +21,7 @@ public static class Shaders
         GraphicsDevice gd = Visuals.gd;
 
         HexTileShader = cm.Load<Effect>("HexTileShader");
+        BuildingPrePlacementShader = cm.Load<Effect>("BuildingPrePlacementShader");
+        BuildingBlueprintShader = cm.Load<Effect>("BuildingBlueprintShader");
     }
 }

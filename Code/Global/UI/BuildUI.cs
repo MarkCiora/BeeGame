@@ -36,8 +36,8 @@ public static class BuildUI
         // Grid for 4 buttons
         var grid = new Grid()
         {
-            ColumnSpacing = 6*2,
-            RowSpacing = 6*2
+            ColumnSpacing = 6 * 2,
+            RowSpacing = 6 * 2
         };
 
         grid.RowsProportions.Add(new Proportion(ProportionType.Auto));
@@ -76,9 +76,9 @@ public static class BuildUI
         var bee_comb_button = MakeTexButton(Textures.BeeComb1);
         grid.Widgets.Add(bee_comb_button);
         
-        var button2 = MakeTexButton(Textures.white_circle);
-        Grid.SetColumn(button2, 1);
-        grid.Widgets.Add(button2);
+        var pool_button = MakeTexButton(Textures.GooPool);
+        Grid.SetColumn(pool_button, 1);
+        grid.Widgets.Add(pool_button);
         
         var button3 = MakeTexButton(Textures.white_circle);
         Grid.SetRow(button3, 1);
@@ -90,18 +90,23 @@ public static class BuildUI
         grid.Widgets.Add(button4);
         
         var button5 = MakeTexButton(Textures.white_circle);
-        Grid.SetColumn(button4, 2);
-        grid.Widgets.Add(button4);
+        Grid.SetColumn(button5, 2);
+        grid.Widgets.Add(button5);
         
         var button6 = MakeTexButton(Textures.white_circle);
-        Grid.SetColumn(button4, 2);
-        Grid.SetRow(button4, 1);
-        grid.Widgets.Add(button4);
+        Grid.SetColumn(button6, 2);
+        Grid.SetRow(button6, 1);
+        grid.Widgets.Add(button6);
 
-        // 
+        // button handlers
         bee_comb_button.Click += (s, a) =>
         {
-            Console.WriteLine("Bee Comb Button Pressed");
+            BuildingToolsLogic.ClickBuildingMenuHandler(BuildingType.HoneyComb);
+        };
+        
+        pool_button.Click += (s, a) =>
+        {
+            BuildingToolsLogic.ClickBuildingMenuHandler(BuildingType.Pool);
         };
 
         panel.Widgets.Add(grid);

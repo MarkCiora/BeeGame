@@ -22,6 +22,7 @@ public static class Textures
     public static Texture2D tile_highlight; //7
     public static Texture2D BeeComb1; //8
     public static Texture2D white_circle;
+    public static Texture2D GooPool;
 
     public static void LoadContent()
     {
@@ -40,6 +41,7 @@ public static class Textures
         tile_highlight = cm.Load<Texture2D>("tile_highlight");
         BeeComb1 = cm.Load<Texture2D>("BeeComb1");
         white_circle = CreateCircleTexture(gd, 32, Color.White);
+        GooPool = cm.Load<Texture2D>("GooPool");
     }
 
     public static Texture2D CreateCircleTexture(GraphicsDevice gd, int radius, Color color)

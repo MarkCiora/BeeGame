@@ -79,6 +79,8 @@ public static class Visuals
         ecs.GetSystem<TileSpriteVisualizerSystem>().Update();
         ecs.GetSystem<SpriteVisualizerSystem>().Update();
         ecs.GetSystem<ColliderVisualizerSystem>().Update();
+        
+        VisualizeBuildingOverlay.Visualize();
 
     }
 

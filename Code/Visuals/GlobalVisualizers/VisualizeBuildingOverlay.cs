@@ -6,31 +6,32 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Linq;
 
 namespace BeeGame;
 
-public class TileSpriteVisualizerSystem : ECSSystem
+public static class VisualizeBuildingOverlay
 {
-    public void Update()
+    public static void Visualize()
     {
-        Camera camera = GS.main_cameras[GS.focused_grid];
-        Visuals.sb.Begin(samplerState: SamplerState.PointClamp);
-        foreach (var entity in m_entities)
+        if (BuildingTools.build_mode)
         {
-            var tile_occupier = ecs.GetComponent<TileOccupier>(entity);
-            int x = tile_occupier.x;
-            int y = tile_occupier.y;
-            var sprite = ecs.GetComponent<Sprite>(entity);
-            var tex = sprite.texture;
-            Vector2 world_pos = new HexPoint(x,y).ToWorldPos();
-            Vector2 offset = TileOccupier.footprint_offsets[tile_occupier.shape];
-            Vector2 screen_pos = camera.WorldToScreen(world_pos + offset);
-            Rectangle rect = new(0, 0, tex.Height, tex.Height);
-            float rot = 2f * MathF.PI * tile_occupier.orientation / 6f;
+            Visuals.sb.Begin(
+                // effect: Shaders.BuildingBlueprintShader
+                effect: Shaders.BuildingPrePlacementShader
+                // samplerState: SamplerState.PointClamp
+            );
 
-            //lookup scale based on building shape
+            // draw background ?
+
+            // draw selected building
+            Camera camera = GS.main_cameras[GS.focused_grid];
+            HexPoint hex_point = BuildingTools.selected_hex;
+            Vector2 screen_pos = camera.WorldToScreen(hex_point.ToWorldPos() + BuildingTools.hover_offset);
+            float rotation = BuildingTools.orientation * MathF.PI / 3;
+            Texture2D tex;
             float scale;
-            switch (tile_occupier.type)
+            switch (BuildingTools.selected_type)
             {
                 case BuildingType.HoneyComb:
                     tex = Textures.BeeComb1;
@@ -45,19 +46,22 @@ public class TileSpriteVisualizerSystem : ECSSystem
                     scale = 2f * camera.zoom / tex.Height;
                     break;
             }
-
             Visuals.sb.Draw(
                 tex, // tex
                 screen_pos, // pos
-                rect,
-                sprite.tint, // tint
-                -rot, // rotation
+                null,
+                // new Color(0.5f, 0.5f, 0.5f, 1f),
+                Color.White,
+                -rotation, // rotation
                 new Vector2(tex.Height * 0.5f, tex.Height * 0.5f), // center
                 scale, // scale
                 SpriteEffects.None, // shader?
                 0f
             );
+
+            // Console.WriteLine(screen_pos);
+
+            Visuals.sb.End();
         }
-        Visuals.sb.End();
     }
 }

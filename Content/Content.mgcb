@@ -73,6 +73,18 @@
 /processorParam:TextureFormat=Color
 /build:../aseprite/black_tile.png;black_tile.png
 
+#begin ../aseprite/GooPool.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../aseprite/GooPool.png;GooPool.png
+
 #begin ../aseprite/guy1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -120,6 +132,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../aseprite/tile_highlight.png;tile_highlight.png
+
+#begin ../Code/Shaders/BuildingBlueprintShader.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:../Code/Shaders/BuildingBlueprintShader.fx;BuildingBlueprintShader.fx
+
+#begin ../Code/Shaders/BuildingPrePlacementShader.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:../Code/Shaders/BuildingPrePlacementShader.fx;BuildingPrePlacementShader.fx
 
 #begin ../Code/Shaders/HexTileShader.fx
 /importer:EffectImporter

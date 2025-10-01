@@ -17,8 +17,15 @@ public class BuildingSystem : ECSSystem
 
     }
 
-    public int TryCreateBuilding(int grid, int x, int y, int orientation, TileShape shape)
+    public int TryCreateBuilding(TileOccupier tile_occupier)
     {
+        int grid = tile_occupier.grid;
+        int x = tile_occupier.x;
+        int y = tile_occupier.y;
+        int orientation = tile_occupier.orientation;
+        TileShape shape = tile_occupier.shape;
+        BuildingType type = tile_occupier.type;
+
         HexGrid hex_grid = GS.grids[grid];
         HexPoint origin = new HexPoint(x, y);
 
@@ -33,12 +40,6 @@ public class BuildingSystem : ECSSystem
 
         // make the entity
         int entity = ecs.CreateEntity();
-        TileOccupier tile_occupier = new();
-        tile_occupier.grid = grid;
-        tile_occupier.x = x;
-        tile_occupier.y = y;
-        tile_occupier.orientation = orientation;
-        tile_occupier.shape = shape;
         ecs.AddComponent<TileOccupier>(entity, tile_occupier);
 
         // assign tiles to building
@@ -51,6 +52,23 @@ public class BuildingSystem : ECSSystem
             tile.built = true;
             tile.occupied_entity = entity;
         }
+
+        // lookup what components this building should have
+        Sprite sprite = new();
+        switch (tile_occupier.type)
+        {
+            case BuildingType.HoneyComb:
+                sprite.texture = Textures.BeeComb1;
+                sprite.tint = Color.White;
+                break;
+            case BuildingType.Pool:
+                sprite.texture = Textures.GooPool;
+                sprite.tint = Color.White;
+                break;
+            default:
+                break;
+        }
+        ecs.AddComponent<Sprite>(entity, sprite);
 
         return entity;
     }
