@@ -40,7 +40,12 @@ public class CollisionSystem : ECSSystem
                     HexPoint[] ring = hex_point.ToRingSorted(i, transform.pos);
                     foreach (HexPoint hex in ring)
                     {
-                        if (!GS.grids[grid_level].tiles[hex.q, hex.r].collision)
+                        if (
+                            hex_point.q >= 0 && hex_point.r >= 0 &&
+                            hex_point.q < GS.grids[grid_level].diameter &&
+                            hex_point.r < GS.grids[grid_level].diameter &&
+                            !GS.grids[grid_level].tiles[hex.q, hex.r].collision
+                        )
                         {
                             // opening found
                             Vector2 target = hex.ToWorldPos();
