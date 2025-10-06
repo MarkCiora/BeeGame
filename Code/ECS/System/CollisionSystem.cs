@@ -41,9 +41,9 @@ public class CollisionSystem : ECSSystem
                     foreach (HexPoint hex in ring)
                     {
                         if (
-                            hex_point.q >= 0 && hex_point.r >= 0 &&
-                            hex_point.q < GS.grids[grid_level].diameter &&
-                            hex_point.r < GS.grids[grid_level].diameter &&
+                            hex.q >= 0 && hex.r >= 0 &&
+                            hex.q < GS.grids[grid_level].diameter &&
+                            hex.r < GS.grids[grid_level].diameter &&
                             !GS.grids[grid_level].tiles[hex.q, hex.r].collision
                         )
                         {
