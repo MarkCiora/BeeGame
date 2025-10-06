@@ -24,79 +24,111 @@ public class CollisionSystem : ECSSystem
 
             HexPoint hex_point = new HexPoint(transform.pos);
 
-            //check collisions with hex tiles
-            HexPoint[] hexes = hex_point.GetThisAndNeighbors();
-            foreach (var hex in hexes)
+            //check if inside a wall
+            //search for closest point outside
+            if (
+                hex_point.q >= 0 && hex_point.r >= 0 &&
+                hex_point.q < GS.grids[grid_level].diameter &&
+                hex_point.r < GS.grids[grid_level].diameter &&
+                GS.grids[grid_level].tiles[hex_point.q, hex_point.r].collision
+            )
             {
-                //check if tile exists and is a wall
-                if (hex.q >= 0 && hex.r >= 0 &&
-                hex.q < GS.grids[grid_level].diameter &&
-                hex.r < GS.grids[grid_level].diameter &&
-                GS.grids[grid_level].tiles[hex.q, hex.r].collision)
+                for (int i = 1; i < 1000; i++)
                 {
-                    Vector2 hex_world_pos = hex.ToWorldPos();
-                    Vector2 diff = transform.pos - hex_world_pos;
+                    //keep searching layer by layer closest hexes
+                    //until you find an opening
+                    HexPoint[] ring = hex_point.ToRingSorted(i, transform.pos);
+                    foreach (HexPoint hex in ring)
+                    {
+                        if (!GS.grids[grid_level].tiles[hex.q, hex.r].collision)
+                        {
+                            // opening found
+                            Vector2 target = hex.ToWorldPos();
+                            Vector2 direction = Vector2.Normalize(target - transform.pos);
+                            transform.push = direction / 5f;
+                            i = 1000000;
+                            break;
+                        }
+                    }
+                }
+            }
+            //check collisions with surrounding hexes
+            //only if not inside of a colliding hex
+            else
+            {
+                HexPoint[] hexes = hex_point.GetNeighbors();
+                foreach (var hex in hexes)
+                {
+                    //check if tile exists and is a wall
+                    if (hex.q >= 0 && hex.r >= 0 &&
+                        hex.q < GS.grids[grid_level].diameter &&
+                        hex.r < GS.grids[grid_level].diameter &&
+                        GS.grids[grid_level].tiles[hex.q, hex.r].collision
+                    )
+                    {
+                        Vector2 hex_world_pos = hex.ToWorldPos();
+                        Vector2 diff = transform.pos - hex_world_pos;
 
-                    //cut test for if target is definitely too far away
-                    float dist = diff.Length();
-                    if (dist >= collider.radius + 1f)
-                    {
-                        // Console.WriteLine("outside");
-                        continue;
-                    }
+                        //cut test for if target is definitely too far away
+                        float dist = diff.Length();
+                        if (dist >= collider.radius + 1f)
+                        {
+                            continue;
+                        }
 
-                    //go edge by edge (6 edge) compute distance to edge
-                    int bin = ((int)MathF.Floor(MathZ.Atan2(diff) * 3 / MathF.PI) + 6) % 6;
-                    Vector2 a, b;
-                    switch (bin)
-                    {
-                        case 0:
-                            a = hex_world_pos + new Vector2(1, 0);
-                            b = hex_world_pos + new Vector2(0.5f, 0.8660254038f);
-                            break;
-                        case 1:
-                            a = hex_world_pos + new Vector2(0.5f, 0.8660254038f);
-                            b = hex_world_pos + new Vector2(-0.5f, 0.8660254038f);
-                            break;
-                        case 2:
-                            a = hex_world_pos + new Vector2(-0.5f, 0.8660254038f);
-                            b = hex_world_pos + new Vector2(-1, 0);
-                            break;
-                        case 3:
-                            a = hex_world_pos + new Vector2(-1, 0);
-                            b = hex_world_pos + new Vector2(-0.5f, -0.8660254038f);
-                            break;
-                        case 4:
-                            a = hex_world_pos + new Vector2(-0.5f, -0.8660254038f);
-                            b = hex_world_pos + new Vector2(0.5f, -0.8660254038f);
-                            break;
-                        case 5:
-                            a = hex_world_pos + new Vector2(0.5f, -0.8660254038f);
-                            b = hex_world_pos + new Vector2(1, 0);
-                            break;
-                        default:
-                            a = Vector2.One;
-                            b = Vector2.One;
-                            break;
-                    }
-                    Vector2 ab = b - a;
-                    float t = Vector2.Dot(transform.pos - a, ab) / Vector2.Dot(ab, ab);
-                    t = MathF.Max(0, MathF.Min(1, t)); // clamp to [0,1]
-                    Vector2 closest = a + t * ab;
-                    float distance = (transform.pos - closest).Length();
-                    // Console.WriteLine($"{bin}, {closest}, {transform.pos - closest}");
-                    if (hex_point == hex)
-                    {
-                        transform.pos = closest - collider.radius * (transform.pos - closest) / distance;
-                    }
-                    else if (distance <= collider.radius)
-                    {
-                        transform.pos = closest + collider.radius * (transform.pos - closest) / distance;
+                        //go edge by edge (6 edge) compute distance to edge
+                        int bin = ((int)MathF.Floor(MathZ.Atan2(diff) * 3 / MathF.PI) + 6) % 6;
+                        Vector2 a, b;
+                        switch (bin)
+                        {
+                            case 0:
+                                a = hex_world_pos + new Vector2(1, 0);
+                                b = hex_world_pos + new Vector2(0.5f, 0.8660254038f);
+                                break;
+                            case 1:
+                                a = hex_world_pos + new Vector2(0.5f, 0.8660254038f);
+                                b = hex_world_pos + new Vector2(-0.5f, 0.8660254038f);
+                                break;
+                            case 2:
+                                a = hex_world_pos + new Vector2(-0.5f, 0.8660254038f);
+                                b = hex_world_pos + new Vector2(-1, 0);
+                                break;
+                            case 3:
+                                a = hex_world_pos + new Vector2(-1, 0);
+                                b = hex_world_pos + new Vector2(-0.5f, -0.8660254038f);
+                                break;
+                            case 4:
+                                a = hex_world_pos + new Vector2(-0.5f, -0.8660254038f);
+                                b = hex_world_pos + new Vector2(0.5f, -0.8660254038f);
+                                break;
+                            case 5:
+                                a = hex_world_pos + new Vector2(0.5f, -0.8660254038f);
+                                b = hex_world_pos + new Vector2(1, 0);
+                                break;
+                            default:
+                                a = hex_world_pos + new Vector2(1, 0);
+                                b = hex_world_pos + new Vector2(0.5f, 0.8660254038f);
+                                break;
+                        }
+                        Vector2 ab = b - a;
+                        float t = Vector2.Dot(transform.pos - a, ab) / Vector2.Dot(ab, ab);
+                        t = MathF.Max(0, MathF.Min(1, t)); // clamp to [0,1]
+                        Vector2 closest = a + t * ab;
+                        float distance = (transform.pos - closest).Length();
+                        if (hex_point == hex)
+                        {
+                            transform.pos = closest - collider.radius * (transform.pos - closest) / distance;
+                        }
+                        else if (distance <= collider.radius)
+                        {
+                            transform.pos = closest + collider.radius * (transform.pos - closest) / distance;
+                        }
                     }
                 }
             }
 
-            hex_point = new HexPoint(transform.pos / .1f);
+            // set up grid for checking circle collisions
+                hex_point = new HexPoint(transform.pos / .1f);
             if (lookup_grid.ContainsKey(hex_point))
             {
                 lookup_grid[hex_point].Add(entity);

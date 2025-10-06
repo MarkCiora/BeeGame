@@ -55,6 +55,88 @@ public class HexPoint
         };
     }
 
+    public HexPoint[] GetRing(int r)
+    {
+        if (r < 0)
+            throw new ArgumentException("Radius must be >0");
+
+        if (r == 0)
+            return [this];
+
+        HexPoint[] directions =
+        [
+            new HexPoint(1, -1),
+            new HexPoint(1, 0),
+            new HexPoint(0, 1),
+            new HexPoint(-1, 1),
+            new HexPoint(-1, 0),
+            new HexPoint(0, -1)
+        ];
+
+        HexPoint hex = this + directions[4] * r;
+
+        HexPoint[] ring = new HexPoint[r == 0 ? 1 : 6 * r];
+
+        for (int i = 0; i < 6; i++)
+        {
+            for (int j = 0; j < r; j++)
+            {
+                ring[i * r + j] = hex;
+                hex += directions[i];
+            }
+        }
+
+        return ring;
+    }
+
+    public HexPoint[] ToRingSorted(int radius, Vector2 target)
+    {
+        if (radius < 0)
+            throw new ArgumentException("Radius must be >= 0");
+
+        // Preallocate array for the ring
+        HexPoint[] ring = new HexPoint[radius == 0 ? 1 : 6 * radius];
+
+        if (radius == 0)
+        {
+            ring[0] = this;
+        }
+        else
+        {
+            HexPoint[] directions =
+            {
+                new HexPoint(1, -1),
+                new HexPoint(1, 0),
+                new HexPoint(0, 1),
+                new HexPoint(-1, 1),
+                new HexPoint(-1, 0),
+                new HexPoint(0, -1)
+            };
+
+            HexPoint hex = this + directions[4] * radius;
+            int index = 0;
+
+            for (int i = 0; i < 6; i++)
+            {
+                for (int j = 0; j < radius; j++)
+                {
+                    ring[index++] = hex;
+                    hex += directions[i];
+                }
+            }
+        }
+
+        // Sort by distance to target in world coordinates
+        Array.Sort(ring, (a, b) =>
+        {
+            float da = Vector2.DistanceSquared(a.ToWorldPos(), target);
+            float db = Vector2.DistanceSquared(b.ToWorldPos(), target);
+            return da.CompareTo(db);
+        });
+
+        return ring;
+    }
+
     /// <summary>
     /// Axial coordinates q and s. Cubic coordinate s = -q - r
     /// </summary>
@@ -66,40 +148,6 @@ public class HexPoint
         r = r_;
         // s = -q - r;
     }
-
-    /// <summary>
-    /// If q+r+s != 0, all coords set to 100000
-    /// </summary>
-    /// <param name="q_"></param>
-    /// <param name="r_"></param>
-    /// <param name="s_"></param>
-    // public HexPoint(int q_, int r_, int s_)
-    // {
-    //     if (q_ + r_ + s_ != 0)
-    //     {
-    //         q = r = s = 100000;
-    //     }
-    //     else
-    //     {
-    //         q = q_;
-    //         r = r_;
-    //         s = s_;
-    //     }
-    // }
-
-    // public HexPoint(Point3 point)
-    // {
-    //     if (point.X + point.Y + point.Z != 0)
-    //     {
-    //         q = r = s = 100000;
-    //     }
-    //     else
-    //     {
-    //         q = point.X ;
-    //         r = point.Y ;
-    //         s = point.Z ;
-    //     }
-    // }
 
     public HexPoint(Vector2 vec)
     {
@@ -172,6 +220,11 @@ public class HexPoint
     public static HexPoint operator -(HexPoint a, HexPoint b)
     {
         return new HexPoint(a.q - b.q, a.r - b.r);
+    }
+
+    public static HexPoint operator *(HexPoint a, int k)
+    {
+        return new HexPoint(a.q * k, a.r * k);
     }
 
     public static bool operator ==(HexPoint a, HexPoint b)

@@ -114,8 +114,8 @@ public static class BuildingToolsLogic
         tile_occupier.shape = TileOccupier.building_to_shape[BuildingTools.selected_type];
         tile_occupier.type = BuildingTools.selected_type;
         int cond = GS.main_ecs.GetSystem<BuildingSystem>().TryCreateBuilding(tile_occupier);
-        Console.WriteLine(cond);
+        // Console.WriteLine(cond);
 
-        return true;
+        return cond != -1;
     }
 }
