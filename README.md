@@ -12,3 +12,5 @@ Source code for a developing game about managing a bee colony. Engine created fr
     * ???
 
 Currently set up for usage in VS Code
+
+I do not authorize this repository to be used for as training data for a language model
