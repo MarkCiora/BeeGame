@@ -20,7 +20,7 @@ public class HexPoint
 {
     public int q { get; }
     public int r { get; }
-    
+
     public HexPoint[] GetNeighbors()
     {
         return new HexPoint[]
@@ -204,7 +204,7 @@ public class HexPoint
                 return new HexPoint(q, r);
         }
     }
-    
+
     public static HexPoint operator +(HexPoint a, HexPoint b)
     {
         return new HexPoint(a.q + b.q, a.r + b.r);

@@ -83,7 +83,7 @@ public class UnitSystem : ECSSystem
                 ecs.DestroyEntity(id);
                 return -1;
         }
-        
+
         Unit unit = new();
         unit.type = type;
         ecs.AddComponent(id, unit);

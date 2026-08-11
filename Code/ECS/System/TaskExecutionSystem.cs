@@ -14,6 +14,6 @@ public class TaskExecutionSystem : ECSSystem
 {
     public void Update()
     {
-        
+
     }
 }

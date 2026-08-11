@@ -79,7 +79,7 @@ public class TaskAssignmentSystem : ECSSystem
         ref TaskTarget task_target = ref ecs.GetComponent<TaskTarget>(target);
         task_target.actor = actor;
     }
-    
+
     public void CleanupTask(int actor, int target)
     {
         ref TaskActor task_actor = ref ecs.GetComponent<TaskActor>(actor);

@@ -1,0 +1,36 @@
+# Repository-wide formatting and C# analysis settings.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[*.cs]
+# Keep the existing brace-oriented style.
+csharp_new_line_before_open_brace = all
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+
+# Prefer explicit visibility and straightforward type usage.
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
+csharp_style_var_for_built_in_types = false:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_var_elsewhere = false:suggestion
+
+# Existing ECS components intentionally expose data fields, and existing game state
+# uses public mutable fields. Do not report those architectural conventions as lint.
+dotnet_diagnostic.CA1051.severity = none
+dotnet_diagnostic.CA2211.severity = none
+
+# Preserve the project's current naming convention without flooding the baseline.
+dotnet_diagnostic.CA1707.severity = none
+
+# Explicit default initialization is useful documentation for game state.
+dotnet_diagnostic.CA1805.severity = none
+
+# ECS update methods share an instance-oriented system API, even when currently empty.
+dotnet_diagnostic.CA1822.severity = none

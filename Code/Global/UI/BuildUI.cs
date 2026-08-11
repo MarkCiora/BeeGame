@@ -24,8 +24,8 @@ public static class BuildUI
         // Main container for bottom-left box
         var panel = new Panel
         {
-            Width = 180*2,
-            Height = 120*2,
+            Width = 180 * 2,
+            Height = 120 * 2,
             Background = new SolidBrush(Color.Gray)
         };
 
@@ -75,24 +75,24 @@ public static class BuildUI
 
         var bee_comb_button = MakeTexButton(Textures.BeeComb1);
         grid.Widgets.Add(bee_comb_button);
-        
+
         var pool_button = MakeTexButton(Textures.GooPool);
         Grid.SetColumn(pool_button, 1);
         grid.Widgets.Add(pool_button);
-        
+
         var button3 = MakeTexButton(Textures.apple_bush);
         Grid.SetColumn(button3, 2);
         grid.Widgets.Add(button3);
-        
+
         var button4 = MakeTexButton(Textures.white_circle);
         Grid.SetRow(button4, 1);
         grid.Widgets.Add(button4);
-        
+
         var button5 = MakeTexButton(Textures.white_circle);
         Grid.SetColumn(button5, 1);
         Grid.SetRow(button5, 1);
         grid.Widgets.Add(button5);
-        
+
         var button6 = MakeTexButton(Textures.white_circle);
         Grid.SetColumn(button6, 2);
         Grid.SetRow(button6, 1);
@@ -103,12 +103,12 @@ public static class BuildUI
         {
             BuildingToolsLogic.ClickBuildingMenuHandler(BuildingType.HoneyComb);
         };
-        
+
         pool_button.Click += (s, a) =>
         {
             BuildingToolsLogic.ClickBuildingMenuHandler(BuildingType.Pool);
         };
-        
+
         button3.Click += (s, a) =>
         {
             BuildingToolsLogic.ClickBuildingMenuHandler(BuildingType.AppleBush);

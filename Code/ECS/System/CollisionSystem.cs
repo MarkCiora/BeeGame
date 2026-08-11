@@ -133,7 +133,7 @@ public class CollisionSystem : ECSSystem
             }
 
             // set up grid for checking circle collisions
-                hex_point = new HexPoint(transform.pos / .1f);
+            hex_point = new HexPoint(transform.pos / .1f);
             if (lookup_grid.ContainsKey(hex_point))
             {
                 lookup_grid[hex_point].Add(entity);

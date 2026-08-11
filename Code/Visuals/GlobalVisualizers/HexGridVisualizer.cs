@@ -42,7 +42,7 @@ public static class HexGridVisualizer
                         color = new Color(0, 0, 0, 0);
                         break;
                 }
-                HexPoint hex_pos = new HexPoint(i,j);
+                HexPoint hex_pos = new HexPoint(i, j);
                 Vector2 world_pos = hex_pos.ToWorldPos();
                 Vector2 screen_pos = camera.WorldToScreen(world_pos);
                 float zoom = camera.zoom;

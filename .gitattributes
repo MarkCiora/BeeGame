@@ -1,2 +1,1 @@
-# Normalize text files in Git so Windows and Linux line endings do not create diffs.
-* text=auto
+* text=auto eol=crlf

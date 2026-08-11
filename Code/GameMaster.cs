@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Myra;
@@ -25,7 +25,7 @@ public class GameMaster : Game
         MyraEnvironment.Game = this;
         desktop = new Desktop();
         GS.desktop = desktop;
-        
+
         // initialize helpers
         Screen.Init(gdm);
         Input.Init();

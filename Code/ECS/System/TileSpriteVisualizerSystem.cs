@@ -22,7 +22,7 @@ public class TileSpriteVisualizerSystem : ECSSystem
             int y = tile_occupier.y;
             var sprite = ecs.GetComponent<Sprite>(entity);
             var tex = sprite.texture;
-            Vector2 world_pos = new HexPoint(x,y).ToWorldPos();
+            Vector2 world_pos = new HexPoint(x, y).ToWorldPos();
             Vector2 offset = TileOccupier.footprint_offsets[tile_occupier.shape];
             Vector2 screen_pos = camera.WorldToScreen(world_pos + offset);
             Rectangle rect = new(0, 0, tex.Height, tex.Height);

@@ -1,2 +1,2 @@
-﻿using var game = new BeeGame.GameMaster();
+using var game = new BeeGame.GameMaster();
 game.Run();

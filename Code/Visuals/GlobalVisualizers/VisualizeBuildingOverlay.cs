@@ -19,7 +19,7 @@ public static class VisualizeBuildingOverlay
             Visuals.sb.Begin(
                 // effect: Shaders.BuildingBlueprintShader
                 effect: Shaders.BuildingPrePlacementShader
-                // samplerState: SamplerState.PointClamp
+            // samplerState: SamplerState.PointClamp
             );
 
             // draw background ?

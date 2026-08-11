@@ -69,42 +69,42 @@ public static class GlobalLogic
         signature.Set(ecs.GetComponentType<TileOccupier>(), true);
         signature.Set(ecs.GetComponentType<Sprite>(), true);
         ecs.SetSystemSignature<TileSpriteVisualizerSystem>(signature);
-        
+
         //Collision system
         signature = new();
         ecs.RegisterSystem<CollisionSystem>();
         signature.Set(ecs.GetComponentType<CircleCollider>(), true);
         signature.Set(ecs.GetComponentType<Transform>(), true);
         ecs.SetSystemSignature<CollisionSystem>(signature);
-        
+
         //Collision visualizer system
         signature = new();
         ecs.RegisterSystem<ColliderVisualizerSystem>();
         signature.Set(ecs.GetComponentType<CircleCollider>(), true);
         signature.Set(ecs.GetComponentType<Transform>(), true);
         ecs.SetSystemSignature<ColliderVisualizerSystem>(signature);
-        
+
         //Bee move system
         signature = new();
         ecs.RegisterSystem<BuildingSystem>();
         signature.Set(ecs.GetComponentType<Transform>(), true);
         signature.Set(ecs.GetComponentType<TileOccupier>(), true);
         ecs.SetSystemSignature<BuildingSystem>(signature);
-        
+
         //Unit system (creation templates)
         signature = new();
         ecs.RegisterSystem<UnitSystem>();
         signature.Set(ecs.GetComponentType<Transform>(), true);
         signature.Set(ecs.GetComponentType<Unit>(), true);
         ecs.SetSystemSignature<UnitSystem>(signature);
-        
+
         //Task assignment system
         signature = new();
         ecs.RegisterSystem<TaskAssignmentSystem>();
         signature.Set(ecs.GetComponentType<Transform>(), true);
         signature.Set(ecs.GetComponentType<TaskActor>(), true);
         ecs.SetSystemSignature<TaskAssignmentSystem>(signature);
-        
+
         //Task target system
         signature = new();
         ecs.RegisterSystem<TaskTargetSystem>();
@@ -142,15 +142,15 @@ public static class GlobalLogic
 
         if (Input.IsPressed(Keys.Space))
         {
-            
+
         }
 
         BuildingToolsLogic.Update();
-        
+
         ecs.GetSystem<BeeThinkSystem>().Update();
         ecs.GetSystem<BeeMoveSystem>().Update();
         ecs.GetSystem<CollisionSystem>().Update();
-        
+
         ecs.GetSystem<TaskAssignmentSystem>().Update();
         ecs.GetSystem<TaskExecutionSystem>().Update();
 
