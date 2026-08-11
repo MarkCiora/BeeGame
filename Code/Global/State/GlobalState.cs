@@ -24,4 +24,7 @@ public static class GS
     public static int focused_grid = 0;
     public static List<HexGrid> grids = new();
     public static List<Camera> main_cameras = new();
+
+    public static float bee_walk_speed_default;
+    public static float bee_walk_acc_default;
 }

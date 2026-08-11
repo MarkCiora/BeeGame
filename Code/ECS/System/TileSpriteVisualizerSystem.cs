@@ -33,21 +33,18 @@ public class TileSpriteVisualizerSystem : ECSSystem
             switch (tile_occupier.type)
             {
                 case BuildingType.HoneyComb:
-                    tex = Textures.BeeComb1;
                     scale = 2f * camera.zoom / tex.Height;
                     break;
                 case BuildingType.Pool:
-                    tex = Textures.GooPool;
                     scale = 4f * camera.zoom / tex.Height;
                     break;
                 default:
-                    tex = Textures.white_circle;
                     scale = 2f * camera.zoom / tex.Height;
                     break;
             }
 
             Visuals.sb.Draw(
-                tex, // tex
+                sprite.texture, // tex
                 screen_pos, // pos
                 rect,
                 sprite.tint, // tint

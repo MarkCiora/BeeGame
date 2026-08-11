@@ -6,17 +6,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace BeeGame;
 
-public class BeeThinkSystem : ECSSystem
+public class TaskExecutionSystem : ECSSystem
 {
     public void Update()
     {
-        // foreach (var entity in m_entities)
-        // {
-        //     var transform = ecs.GetComponent<Transform>(entity);
-        //     ref var move_desc = ref ecs.GetComponent<MovementDescriptor>(entity);
-        // }
+        
     }
 }

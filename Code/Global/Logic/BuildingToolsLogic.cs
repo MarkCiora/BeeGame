@@ -89,6 +89,12 @@ public static class BuildingToolsLogic
         foreach (var (dq, dr) in TileOccupier.footprints[shape])
         {
             HexPoint hex = BuildingTools.selected_hex + new HexPoint(dq, dr);
+            if (
+                hex.q < 0 || hex.r < 0 ||
+                hex.q >= grid.diameter ||
+                hex.r >= grid.diameter
+            )
+                return false;
             HexTile tile = grid.tiles[hex.q, hex.r];
             if (tile.built || tile.elevation != 0) return false;
         }

@@ -28,15 +28,15 @@ public class BeeMoveSystem : ECSSystem
             {
                 transform.speed = MathF.Max(
                     0f,
-                    transform.speed - Time.dt * move_desc.acc
+                    transform.speed - Time.dt * GS.bee_walk_acc_default
                 );
             }
             else
             {
                 transform.rot = MathZ.Atan2(move_diff);
                 transform.speed = MathF.Min(
-                    move_desc.max_speed,
-                    transform.speed + Time.dt * move_desc.acc
+                    GS.bee_walk_speed_default,
+                    transform.speed + Time.dt * GS.bee_walk_acc_default
                 );
             }
             Vector2 dir = MathZ.DirFromRot(transform.rot);

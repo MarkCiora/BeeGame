@@ -41,6 +41,10 @@ public static class VisualizeBuildingOverlay
                     tex = Textures.GooPool;
                     scale = 4f * camera.zoom / tex.Height;
                     break;
+                case BuildingType.AppleBush:
+                    tex = Textures.apple_bush;
+                    scale = 2f * camera.zoom / tex.Height;
+                    break;
                 default:
                     tex = Textures.white_circle;
                     scale = 2f * camera.zoom / tex.Height;

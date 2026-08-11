@@ -34,13 +34,19 @@ public class BuildingSystem : ECSSystem
         {
             HexPoint point = new(dq, dr);
             point = origin + point.RotatedBy(orientation);
+            if (
+                point.q < 0 || point.r < 0 ||
+                point.q >= hex_grid.diameter ||
+                point.r >= hex_grid.diameter
+            )
+                return -1;
             HexTile tile = hex_grid.tiles[point.q, point.r];
             if (tile.built || tile.elevation != 0) return -1;
         }
 
         // make the entity
         int entity = ecs.CreateEntity();
-        ecs.AddComponent<TileOccupier>(entity, tile_occupier);
+        ecs.AddComponent(entity, tile_occupier);
 
         // assign tiles to building
         foreach (var (dq, dr) in TileOccupier.footprints[shape])
@@ -65,10 +71,14 @@ public class BuildingSystem : ECSSystem
                 sprite.texture = Textures.GooPool;
                 sprite.tint = Color.White;
                 break;
+            case BuildingType.AppleBush:
+                sprite.texture = Textures.apple_bush;
+                sprite.tint = Color.White;
+                break;
             default:
                 break;
         }
-        ecs.AddComponent<Sprite>(entity, sprite);
+        ecs.AddComponent(entity, sprite);
 
         return entity;
     }

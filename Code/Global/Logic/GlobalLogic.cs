@@ -30,6 +30,13 @@ public static class GlobalLogic
         ecs.RegisterComponent<TileOccupier>(5000);
         ecs.RegisterComponent<MovementDescriptor>(10000);
         ecs.RegisterComponent<CircleCollider>(10000);
+        ecs.RegisterComponent<TaskActor>(10000);
+        ecs.RegisterComponent<TaskTarget>(10000);
+        ecs.RegisterComponent<Unit>(10000);
+        ecs.RegisterComponent<PathComponent>(10000);
+        ecs.RegisterComponent<Inventory>(10000);
+        ecs.RegisterComponent<Resource>(10000);
+        ecs.RegisterComponent<ResourceDeposit>(10000);
 
 
         // Register systems
@@ -83,18 +90,45 @@ public static class GlobalLogic
         signature.Set(ecs.GetComponentType<Transform>(), true);
         signature.Set(ecs.GetComponentType<TileOccupier>(), true);
         ecs.SetSystemSignature<BuildingSystem>(signature);
+        
+        //Unit system (creation templates)
+        signature = new();
+        ecs.RegisterSystem<UnitSystem>();
+        signature.Set(ecs.GetComponentType<Transform>(), true);
+        signature.Set(ecs.GetComponentType<Unit>(), true);
+        ecs.SetSystemSignature<UnitSystem>(signature);
+        
+        //Task assignment system
+        signature = new();
+        ecs.RegisterSystem<TaskAssignmentSystem>();
+        signature.Set(ecs.GetComponentType<Transform>(), true);
+        signature.Set(ecs.GetComponentType<TaskActor>(), true);
+        ecs.SetSystemSignature<TaskAssignmentSystem>(signature);
+        
+        //Task target system
+        signature = new();
+        ecs.RegisterSystem<TaskTargetSystem>();
+        signature.Set(ecs.GetComponentType<Transform>(), true);
+        signature.Set(ecs.GetComponentType<TaskTarget>(), true);
+        ecs.SetSystemSignature<TaskTargetSystem>(signature);
 
+        //Task execution system
+        signature = new();
+        ecs.RegisterSystem<TaskExecutionSystem>();
+        signature.Set(ecs.GetComponentType<Transform>(), true);
+        signature.Set(ecs.GetComponentType<TaskActor>(), true);
+        ecs.SetSystemSignature<TaskExecutionSystem>(signature);
 
         // Startup entity creation
         Vector2 center_of_grid = HexGridLogic.GetCenter(GS.grids[GS.focused_grid]).ToWorldPos();
+        UnitSystem unit_system = ecs.GetSystem<UnitSystem>();
         for (int i = 0; i < 5; i++)
         {
             float displacement = MathZ.rand.NextSingle();
             displacement = MathF.Sqrt(displacement) * 1;
             Vector2 placement_pos = center_of_grid + MathZ.RandomDirV() * displacement;
-            BeeEntity.CreateBee(ecs, placement_pos, 0);
+            unit_system.CreateUnit(UnitType.Bee, placement_pos, 0);
         }
-        // HoneyCombEntity.CreateHoneyComb(ecs, new HexPoint(15, 15), 0);
     }
 
     public static void Update()
@@ -108,14 +142,7 @@ public static class GlobalLogic
 
         if (Input.IsPressed(Keys.Space))
         {
-            Vector2 center_of_grid = HexGridLogic.GetCenter(GS.grids[GS.focused_grid]).ToWorldPos();
-            for (int i = 0; i < 500; i++)
-            {
-                float displacement = MathZ.rand.NextSingle();
-                displacement = MathF.Sqrt(displacement) * 2f;
-                Vector2 placement_pos = center_of_grid + MathZ.RandomDirV() * displacement;
-                BeeEntity.CreateBee(ecs, placement_pos, 0);
-            }
+            
         }
 
         BuildingToolsLogic.Update();
@@ -123,6 +150,9 @@ public static class GlobalLogic
         ecs.GetSystem<BeeThinkSystem>().Update();
         ecs.GetSystem<BeeMoveSystem>().Update();
         ecs.GetSystem<CollisionSystem>().Update();
+        
+        ecs.GetSystem<TaskAssignmentSystem>().Update();
+        ecs.GetSystem<TaskExecutionSystem>().Update();
 
         CameraLogic.Update();
     }

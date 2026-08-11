@@ -17,6 +17,11 @@
     <!-- <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" /> -->
   </ItemGroup>
 
+  <!-- Unit tests live under the repository root but compile in their own project. -->
+  <ItemGroup>
+    <Compile Remove="Tests\**\*.cs" />
+  </ItemGroup>
+
   <!-- Build MGCB content before building -->
   <Target Name="BuildContent" BeforeTargets="Build">
     <!-- Assumes dotnet-mgcb is installed globally -->

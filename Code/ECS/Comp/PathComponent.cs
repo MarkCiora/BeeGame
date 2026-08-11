@@ -9,13 +9,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BeeGame;
 
-public enum UnitType
+public struct PathComponent
 {
-    Bee,
-    Apple
-}
-
-public struct Unit
-{
-    public UnitType type;
+    public int current;
+    public int end;
 }

@@ -20,14 +20,7 @@ public class HexPoint
 {
     public int q { get; }
     public int r { get; }
-    // public int s { get; }
-
-    // public static HexPoint[] adj =
-    // {
-    //     new HexPoint(1,-1), new HexPoint(1,0), new HexPoint(0,1),
-    //     new HexPoint(-1,1), new HexPoint(-1,0), new HexPoint(0,-1)
-    // };
-
+    
     public HexPoint[] GetNeighbors()
     {
         return new HexPoint[]

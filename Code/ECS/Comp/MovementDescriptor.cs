@@ -11,10 +11,10 @@ namespace BeeGame;
 
 public struct MovementDescriptor
 {
-    public float max_speed;
-    public float acc;
     public Vector2 move_target;
     public bool move_intent;
+    public bool can_fly;
+    public bool flying;
 }
 
 // public struct Transform

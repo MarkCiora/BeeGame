@@ -47,6 +47,7 @@ public struct TileOccupier
     {
         { BuildingType.HoneyComb, TileShape.dot},
         { BuildingType.Pool, TileShape.tri},
+        { BuildingType.AppleBush, TileShape.dot},
     };
 }
 
@@ -55,6 +56,6 @@ public struct TileOccupier
 /// </summary>
 public enum BuildingType
 {
-    none, HoneyComb, Pool
+    none, HoneyComb, Pool, AppleBush
 }
 

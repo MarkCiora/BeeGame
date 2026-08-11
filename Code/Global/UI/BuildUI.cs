@@ -80,17 +80,17 @@ public static class BuildUI
         Grid.SetColumn(pool_button, 1);
         grid.Widgets.Add(pool_button);
         
-        var button3 = MakeTexButton(Textures.white_circle);
-        Grid.SetRow(button3, 1);
+        var button3 = MakeTexButton(Textures.apple_bush);
+        Grid.SetColumn(button3, 2);
         grid.Widgets.Add(button3);
         
         var button4 = MakeTexButton(Textures.white_circle);
-        Grid.SetColumn(button4, 1);
         Grid.SetRow(button4, 1);
         grid.Widgets.Add(button4);
         
         var button5 = MakeTexButton(Textures.white_circle);
-        Grid.SetColumn(button5, 2);
+        Grid.SetColumn(button5, 1);
+        Grid.SetRow(button5, 1);
         grid.Widgets.Add(button5);
         
         var button6 = MakeTexButton(Textures.white_circle);
@@ -107,6 +107,11 @@ public static class BuildUI
         pool_button.Click += (s, a) =>
         {
             BuildingToolsLogic.ClickBuildingMenuHandler(BuildingType.Pool);
+        };
+        
+        button3.Click += (s, a) =>
+        {
+            BuildingToolsLogic.ClickBuildingMenuHandler(BuildingType.AppleBush);
         };
 
         panel.Widgets.Add(grid);
